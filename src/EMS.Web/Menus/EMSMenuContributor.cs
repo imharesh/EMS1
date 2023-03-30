@@ -46,6 +46,12 @@ public class EMSMenuContributor : IMenuContributor
             l["Menu:Employees"],
             url: "/Employees"
         ).RequirePermissions(EMSPermissions.Employees.Default)
+    ).AddItem( // ADDED THE NEW "AUTHORS" MENU ITEM UNDER THE "BOOK STORE" MENU
+        new ApplicationMenuItem(
+            "EMS.Departments",
+            l["Menu:Departments"],
+            url: "/Departments"
+        ).RequirePermissions(EMSPermissions.Employees.Default)
     )
 );
 

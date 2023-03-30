@@ -55,16 +55,16 @@ namespace EMS
             {
                 await _departmentRepository.InsertAsync(
                     await _departmentManager.CreateAsync(
-                        "Milan",
-                        "18"
+                        "HR",
+                        "ABC"
                        
                     )
                 );
 
                 await _departmentRepository.InsertAsync(
                     await _departmentManager.CreateAsync(
-                        "Bunty",
-                        "25"
+                        "Test",
+                        "XYZ"
                   )     
                 );
             }
