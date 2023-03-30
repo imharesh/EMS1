@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EMS.Departments;
 using EMS.Employees;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -9,11 +10,20 @@ namespace EMS
 {
     public class EMSDataSeederContributor :  IDataSeedContributor, ITransientDependency
     {
-        private readonly IRepository<Employee, Guid> _employeeRepository;
+       
 
-        public EMSDataSeederContributor(IRepository<Employee, Guid> employeeRepository)
+        private readonly IRepository<Employee, Guid> _employeeRepository;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly DepartmentManager _departmentManager;
+
+        public EMSDataSeederContributor(
+            IRepository<Employee, Guid> employeeRepository,
+            IDepartmentRepository departmentRepository,
+            DepartmentManager departmentManager)
         {
             _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
+            _departmentManager = departmentManager;
         }
 
         public async Task SeedAsync(DataSeedContext context)
@@ -36,6 +46,26 @@ namespace EMS
                         Age = "22"
                     },
                     autoSave: true
+                );
+            }
+
+            // ADDED SEED DATA FOR AUTHORS
+
+            if (await _departmentRepository.GetCountAsync() <= 0)
+            {
+                await _departmentRepository.InsertAsync(
+                    await _departmentManager.CreateAsync(
+                        "Milan",
+                        "18"
+                       
+                    )
+                );
+
+                await _departmentRepository.InsertAsync(
+                    await _departmentManager.CreateAsync(
+                        "Bunty",
+                        "25"
+                  )     
                 );
             }
         }

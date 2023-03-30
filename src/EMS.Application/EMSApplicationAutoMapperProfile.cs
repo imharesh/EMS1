@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EMS.Departments;
 using EMS.Employees;
 
 namespace EMS;
@@ -13,5 +14,7 @@ public class EMSApplicationAutoMapperProfile : Profile
 
         CreateMap<Employee, EmployeeDto>();
         CreateMap<CreateUpdateEmployeeDto, Employee>();
+        CreateMap<Department, DepartmentDto>();
+
     }
 }

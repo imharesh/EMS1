@@ -14,6 +14,18 @@ public class EMSPermissionDefinitionProvider : PermissionDefinitionProvider
         employeePermission.AddChild(EMSPermissions.Employees.Create, L("Permission:Employees.Create"));
         employeePermission.AddChild(EMSPermissions.Employees.Edit, L("Permission:Employees.Edit"));
         employeePermission.AddChild(EMSPermissions.Employees.Delete, L("Permission:Employees.Delete"));
+
+
+
+        var departmentsPermission = eMSGroup.AddPermission(
+    EMSPermissions.Departments.Default, L("Permission:Departments"));
+        departmentsPermission.AddChild(
+            EMSPermissions.Departments.Create, L("Permission:Departments.Create"));
+        departmentsPermission.AddChild(
+            EMSPermissions.Departments.Edit, L("Permission:Departments.Edit"));
+        departmentsPermission.AddChild(
+            EMSPermissions.Departments.Delete, L("Permission:Departments.Delete"));
+
     }
 
     private static LocalizableString L(string name)
