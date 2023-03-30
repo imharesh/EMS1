@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -11,5 +12,6 @@ namespace EMS.Employees
         PagedAndSortedResultRequestDto, //Used for paging/sorting
         CreateUpdateEmployeeDto> //Used 
     {
+        Task<ListResultDto<DepartmentLookupDto>> GetDepartmentLookupAsync();
     }
 }

@@ -26,48 +26,90 @@ namespace EMS
             _departmentManager = departmentManager;
         }
 
+        //public async Task SeedAsync(DataSeedContext context)
+        //{
+        //    if (await _employeeRepository.GetCountAsync() <= 0)
+        //    {
+        //        await _employeeRepository.InsertAsync(
+        //            new Employee
+        //            {
+        //                Name = "Haresh",
+        //                Age = "20"
+        //            },
+        //            autoSave: true
+        //        );
+
+        //        await _employeeRepository.InsertAsync(
+        //            new Employee
+        //            {
+        //                Name = "Hardy",
+        //                Age = "22"
+        //            },
+        //            autoSave: true
+        //        );
+        //    }
+
+        //    // ADDED SEED DATA FOR AUTHORS
+
+        //    if (await _departmentRepository.GetCountAsync() <= 0)
+        //    {
+        //        await _departmentRepository.InsertAsync(
+        //            await _departmentManager.CreateAsync(
+        //                "HR",
+        //                "ABC"
+
+        //            )
+        //        );
+
+        //        await _departmentRepository.InsertAsync(
+        //            await _departmentManager.CreateAsync(
+        //                "Test",
+        //                "XYZ"
+        //          )     
+        //        );
+        //    }
+        //}
+
         public async Task SeedAsync(DataSeedContext context)
         {
-            if (await _employeeRepository.GetCountAsync() <= 0)
+            if (await _employeeRepository.GetCountAsync() > 0)
             {
-                await _employeeRepository.InsertAsync(
-                    new Employee
-                    {
-                        Name = "Haresh",
-                        Age = "20"
-                    },
-                    autoSave: true
-                );
-
-                await _employeeRepository.InsertAsync(
-                    new Employee
-                    {
-                        Name = "Hardy",
-                        Age = "22"
-                    },
-                    autoSave: true
-                );
+                return;
             }
 
-            // ADDED SEED DATA FOR AUTHORS
+            var hr = await _departmentRepository.InsertAsync(
+                await _departmentManager.CreateAsync(
+                    "HR",
+                     "ABC"
+                )
+            );
 
-            if (await _departmentRepository.GetCountAsync() <= 0)
-            {
-                await _departmentRepository.InsertAsync(
-                    await _departmentManager.CreateAsync(
-                        "HR",
-                        "ABC"
-                       
-                    )
-                );
+            var user = await _departmentRepository.InsertAsync(
+                await _departmentManager.CreateAsync(
+                    "User",
+                     "XYZ"
+                )
+            );
 
-                await _departmentRepository.InsertAsync(
-                    await _departmentManager.CreateAsync(
-                        "Test",
-                        "XYZ"
-                  )     
-                );
-            }
+            await _employeeRepository.InsertAsync(
+                new Employee
+                {
+                    DepartmentId = hr.Id, // SET THE AUTHOR
+                    Name = "Bunty",
+                    Age = "22"
+                },
+                autoSave: true
+            );
+
+            await _employeeRepository.InsertAsync(
+               new Employee
+               {
+                   DepartmentId = hr.Id, // SET THE AUTHOR
+                   Name = "Milan",
+                   Age = "23"
+               },
+               autoSave: true
+           );
         }
     }
 }

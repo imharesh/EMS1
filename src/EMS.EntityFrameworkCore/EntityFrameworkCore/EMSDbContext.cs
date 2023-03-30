@@ -91,6 +91,7 @@ public class EMSDbContext :
             b.Property(x => x.Age).IsRequired().HasMaxLength(128);
             //auto configure for the base class props
             //...
+            b.HasOne<Department>().WithMany().HasForeignKey(x => x.DepartmentId).IsRequired();
         });
 
         builder.Entity<Department>(b =>
@@ -104,14 +105,12 @@ public class EMSDbContext :
                 .IsRequired()
                 .HasMaxLength(DepartmentConsts.MaxNameLength);
 
-            b.HasIndex(x => x.ShortBio);
-
-            b.Property(x => x.ShortBio)
-               .IsRequired()
-               .HasMaxLength(DepartmentConsts.MaxNameLength);
-
-            b.HasIndex(x => x.ShortBio);
+            b.HasIndex(x => x.ShortBio);   
         });
+
+       
+
+
 
 
     }

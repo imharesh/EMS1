@@ -54,6 +54,16 @@
                     title: l('Age'),
                     data: "age"
                 },
+                {
+                    title: l('Department'),
+                    data: "departmentName"
+                },
+                {
+                    title: l('ShortBio'),
+                    data: "shortbio",
+
+                }
+
                
             ]
         })

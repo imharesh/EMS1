@@ -7,6 +7,8 @@ namespace EMS.Employees
     
     {
 
+        public Guid DepartmentId { get; set; }
+
         public string Name { get; set; }
 
         public string Age { get; set; }
