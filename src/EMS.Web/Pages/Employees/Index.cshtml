@@ -1,0 +1,18 @@
+﻿@page
+@using EMS.Localization
+@using EMS.Web.Pages.Employees
+@using Microsoft.Extensions.Localization
+@model IndexModel
+@inject IStringLocalizer<EMSResource> L
+@section scripts
+{
+    <abp-script src="/Pages/Employees/Index.js" />
+}
+<abp-card>
+    <abp-card-header>
+        <h2>@L["Employees"]</h2>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="EmployeesTable"></abp-table>
+    </abp-card-body>
+</abp-card>

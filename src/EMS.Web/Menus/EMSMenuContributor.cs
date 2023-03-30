@@ -33,6 +33,20 @@ public class EMSMenuContributor : IMenuContributor
                 order: 0
             )
         );
+        context.Menu.AddItem(
+    new ApplicationMenuItem(
+        "EMS",
+        l["Menu:EMS"],
+        icon: "fa fa-users"
+    ).AddItem(
+        new ApplicationMenuItem(
+            "EMS.Employees",
+            l["Menu:Employees"],
+            url: "/Employees"
+        )
+    )
+);
+
 
         if (MultiTenancyConsts.IsEnabled)
         {
