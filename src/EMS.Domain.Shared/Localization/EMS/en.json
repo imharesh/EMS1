@@ -24,7 +24,9 @@
     "Permission:Employees": "Employee Management",
     "Permission:Employees.Create": "Creating new employees",
     "Permission:Employees.Edit": "Editing the employees",
-    "Permission:Employees.Delete": "Deleting the employees"
+    "Permission:Employees.Delete": "Deleting the employees",
+    "EMS:00001": "There is already an department with the same name: {name}"
+
 
   }
 }
