@@ -20,12 +20,14 @@
                             [
                                 {
                                     text: l('Edit'),
+                                    visible: abp.auth.isGranted('EMS.Employees.Edit'),
                                     action: function (data) {
                                         editModal.open({ id: data.record.id });
                                     }
                                 },
                                 {
                                     text: l('Delete'),
+                                    visible: abp.auth.isGranted('EMS.Employees.Delete'),
                                     confirmMessage: function (data) {
                                         return l('EmployeeDeletionConfirmationMessage', data.record.name);
                                     },

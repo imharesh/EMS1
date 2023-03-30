@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMS.Permissions;
+using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -17,7 +18,11 @@ namespace EMS.Employees
         public EmployeeAppService(IRepository<Employee, Guid> repository)
         : base(repository)
         {
-
+            GetPolicyName = EMSPermissions.Employees.Default;
+            GetListPolicyName = EMSPermissions.Employees.Default;
+            CreatePolicyName = EMSPermissions.Employees.Create;
+            UpdatePolicyName = EMSPermissions.Employees.Edit;
+            DeletePolicyName = EMSPermissions.Employees.Delete;
         }
     }
 }

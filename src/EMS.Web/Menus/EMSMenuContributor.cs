@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using EMS.Localization;
 using EMS.MultiTenancy;
+using EMS.Permissions;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
@@ -43,7 +45,7 @@ public class EMSMenuContributor : IMenuContributor
             "EMS.Employees",
             l["Menu:Employees"],
             url: "/Employees"
-        )
+        ).RequirePermissions(EMSPermissions.Employees.Default)
     )
 );
 

@@ -37,6 +37,8 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using EMS.Permissions;
 
 namespace EMS.Web;
 
@@ -93,6 +95,15 @@ public class EMSWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+
+        Configure<RazorPagesOptions>(options =>
+        {
+            options.Conventions.AuthorizePage("/Employees/Index", EMSPermissions.Employees.Default);
+            options.Conventions.AuthorizePage("/Employees/CreateModal", EMSPermissions.Employees.Create);
+            options.Conventions.AuthorizePage("/Employees/EditModal", EMSPermissions.Employees.Edit);
+        });
+
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
