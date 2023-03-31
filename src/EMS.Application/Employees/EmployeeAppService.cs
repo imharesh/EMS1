@@ -21,7 +21,7 @@ namespace EMS.Employees
         EmployeeDto, //Used to show books
         Guid, //Primary key of the book entity
         MySearchFilterDto, //Used for paging/sorting
-        CreateUpdateEmployeeDto>, //Used to create/update a book
+        CreateUpdateEmployeeDto>, 
     IEmployeeAppService
     {
         private readonly IDepartmentRepository _departmentRepository;
@@ -73,12 +73,12 @@ namespace EMS.Employees
 
 
             query = query
-  .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
-  x => x.employee.Name.ToLower().Contains(input.Filter.ToLower()) ||
-  x.department.Name.ToLower().Contains(input.Filter.ToLower()))
-  .OrderBy(NormalizeSorting(input.Sorting))
-  .Skip(input.SkipCount)
-  .Take(input.MaxResultCount);
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+                x => x.employee.Name.ToLower().Contains(input.Filter.ToLower()) ||
+                x.department.Name.ToLower().Contains(input.Filter.ToLower()))
+                .OrderBy(NormalizeSorting(input.Sorting))
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount);
 
 
 
