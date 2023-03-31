@@ -46,7 +46,7 @@ namespace EMS.Employees
             //Prepare a query to join books and authors
             var query = from employee in queryable
                         join department in await _departmentRepository.GetQueryableAsync() on employee.DepartmentId equals department.Id
-                        where department.Id == id
+                        where employee.Id == id
                         select new { employee, department };
 
             //Execute the query and get the book with author
