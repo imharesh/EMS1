@@ -73,10 +73,12 @@ namespace EMS.Employees
 
 
             query = query
-            .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), x => x.employee.Name.ToLower().Contains(input.Filter.ToLower()))
-            .OrderBy(NormalizeSorting(input.Sorting))
-            .Skip(input.SkipCount)
-            .Take(input.MaxResultCount);
+  .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+  x => x.employee.Name.ToLower().Contains(input.Filter.ToLower()) ||
+  x.department.Name.ToLower().Contains(input.Filter.ToLower()))
+  .OrderBy(NormalizeSorting(input.Sorting))
+  .Skip(input.SkipCount)
+  .Take(input.MaxResultCount);
 
 
 
