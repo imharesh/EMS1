@@ -2,14 +2,14 @@
     var l = abp.localization.getResource('EMS');
     var createModal = new abp.ModalManager(abp.appPath + 'Employees/CreateModal');
     var editModal = new abp.ModalManager(abp.appPath + 'Employees/EditModal');
-
+   
 
     var dataTable = $('#EmployeesTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
             serverSide: true,
             paging: true,
             order: [[1, "asc"]],
-            searching: false,
+            searching: true,
             scrollX: true,
             ajax: abp.libs.datatables.createAjax(eMS.employees.employee.getList),
             columnDefs: [
@@ -66,6 +66,9 @@
     );
 
     // var createModal = new abp.ModalManager(abp.appPath + 'Employees/CreateModal');
+   
+  
+
 
     createModal.onResult(function () {
         dataTable.ajax.reload();

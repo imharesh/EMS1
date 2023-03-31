@@ -9,7 +9,7 @@ namespace EMS.Employees
         ICrudAppService< //Defines CRUD methods
         EmployeeDto, //Used to show books
         Guid, //Primary key of the book entity
-        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        MySearchFilterDto, //Used for paging/sorting
         CreateUpdateEmployeeDto> //Used 
     {
         Task<ListResultDto<DepartmentLookupDto>> GetDepartmentLookupAsync();

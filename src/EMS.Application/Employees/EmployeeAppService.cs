@@ -10,6 +10,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
+using static EMS.Permissions.EMSPermissions;
 
 namespace EMS.Employees
 {
@@ -19,7 +20,7 @@ namespace EMS.Employees
         Employee, //The Book entity
         EmployeeDto, //Used to show books
         Guid, //Primary key of the book entity
-        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        MySearchFilterDto, //Used for paging/sorting
         CreateUpdateEmployeeDto>, //Used to create/update a book
     IEmployeeAppService
     {
@@ -61,26 +62,28 @@ namespace EMS.Employees
             return employeeDto;
         }
 
-        public override async Task<PagedResultDto<EmployeeDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        public override async Task<PagedResultDto<EmployeeDto>> GetListAsync(MySearchFilterDto input)
         {
-            //Get the IQueryable<Book> from the repository
             var queryable = await Repository.GetQueryableAsync();
 
-            //Prepare a query to join books and authors
             var query = from employee in queryable
                         join department in await _departmentRepository.GetQueryableAsync() on employee.DepartmentId equals department.Id
                         select new { employee, department };
 
-            //Paging
-            query = query
-                .OrderBy(NormalizeSorting(input.Sorting))
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount);
 
-            //Execute the query and get a list
+
+            query = query
+            .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), x => x.employee.Name.ToLower().Contains(input.Filter.ToLower()))
+            .OrderBy(NormalizeSorting(input.Sorting))
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount);
+
+
+
             var queryResult = await AsyncExecuter.ToListAsync(query);
 
-            //Convert the query result to a list of BookDto objects
+
+
             var employeeDtos = queryResult.Select(x =>
             {
                 var employeeDto = ObjectMapper.Map<Employee, EmployeeDto>(x.employee);
@@ -88,14 +91,15 @@ namespace EMS.Employees
                 return employeeDto;
             }).ToList();
 
-            //Get the total count with another query
+
+
             var totalCount = await Repository.GetCountAsync();
 
-            return new PagedResultDto<EmployeeDto>(
-                totalCount,
-                employeeDtos
-            );
+
+
+            return new PagedResultDto<EmployeeDto>(totalCount, employeeDtos);
         }
+
 
         public async Task<ListResultDto<DepartmentLookupDto>> GetDepartmentLookupAsync()
         {
