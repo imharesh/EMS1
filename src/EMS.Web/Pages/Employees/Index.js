@@ -58,11 +58,7 @@
                     title: l('Department'),
                     data: "departmentName"
                 },
-                {
-                    title: l('ShortBio'),
-                    data: "shortbio",
-
-                }
+           
 
                
             ]

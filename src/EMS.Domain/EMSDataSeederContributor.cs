@@ -6,110 +6,66 @@ using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 
-namespace EMS
+namespace EMS;
+
+public class EMSDataSeederContributor
+    : IDataSeedContributor, ITransientDependency
 {
-    public class EMSDataSeederContributor :  IDataSeedContributor, ITransientDependency
+    private readonly IRepository<Employee, Guid> _employeeRepository;
+    private readonly IDepartmentRepository _departmentRepository;
+    private readonly DepartmentManager _departmentManager;
+
+    public EMSDataSeederContributor(
+        IRepository<Employee, Guid> employeeRepository,
+        IDepartmentRepository departmentRepository,
+        DepartmentManager departmentManager)
     {
-       
+        _employeeRepository = employeeRepository;
+        _departmentRepository = departmentRepository;
+        _departmentManager = departmentManager;
+    }
 
-        private readonly IRepository<Employee, Guid> _employeeRepository;
-        private readonly IDepartmentRepository _departmentRepository;
-        private readonly DepartmentManager _departmentManager;
-
-        public EMSDataSeederContributor(
-            IRepository<Employee, Guid> employeeRepository,
-            IDepartmentRepository departmentRepository,
-            DepartmentManager departmentManager)
+    public async Task SeedAsync(DataSeedContext context)
+    {
+        if (await _employeeRepository.GetCountAsync() > 0)
         {
-            _employeeRepository = employeeRepository;
-            _departmentRepository = departmentRepository;
-            _departmentManager = departmentManager;
+            return;
         }
 
-        //public async Task SeedAsync(DataSeedContext context)
-        //{
-        //    if (await _employeeRepository.GetCountAsync() <= 0)
-        //    {
-        //        await _employeeRepository.InsertAsync(
-        //            new Employee
-        //            {
-        //                Name = "Haresh",
-        //                Age = "20"
-        //            },
-        //            autoSave: true
-        //        );
+        var development = await _departmentRepository.InsertAsync(
+            await _departmentManager.CreateAsync(
+                "Development",
+                "Development for developers"
+            )
+        );
 
-        //        await _employeeRepository.InsertAsync(
-        //            new Employee
-        //            {
-        //                Name = "Hardy",
-        //                Age = "22"
-        //            },
-        //            autoSave: true
-        //        );
-        //    }
+        var testing = await _departmentRepository.InsertAsync(
+            await _departmentManager.CreateAsync(
+                "Testing",
+                "Testing for testers"
+            )
+        );
 
-        //    // ADDED SEED DATA FOR AUTHORS
-
-        //    if (await _departmentRepository.GetCountAsync() <= 0)
-        //    {
-        //        await _departmentRepository.InsertAsync(
-        //            await _departmentManager.CreateAsync(
-        //                "HR",
-        //                "ABC"
-
-        //            )
-        //        );
-
-        //        await _departmentRepository.InsertAsync(
-        //            await _departmentManager.CreateAsync(
-        //                "Test",
-        //                "XYZ"
-        //          )     
-        //        );
-        //    }
-        //}
-
-        public async Task SeedAsync(DataSeedContext context)
-        {
-            if (await _employeeRepository.GetCountAsync() > 0)
+        await _employeeRepository.InsertAsync(
+            new Employee
             {
-                return;
-            }
+                DepartmentId = development.Id, // SET THE AUTHOR
+                Name = "Divyanshu",
+                Age = "23"
+               
+            },
+            autoSave: true
+        );
 
-            var hr = await _departmentRepository.InsertAsync(
-                await _departmentManager.CreateAsync(
-                    "HR",
-                     "ABC"
-                )
-            );
-
-            var user = await _departmentRepository.InsertAsync(
-                await _departmentManager.CreateAsync(
-                    "User",
-                     "XYZ"
-                )
-            );
-
-            await _employeeRepository.InsertAsync(
-                new Employee
-                {
-                    DepartmentId = hr.Id, // SET THE AUTHOR
-                    Name = "Bunty",
-                    Age = "22"
-                },
-                autoSave: true
-            );
-
-            await _employeeRepository.InsertAsync(
-               new Employee
-               {
-                   DepartmentId = hr.Id, // SET THE AUTHOR
-                   Name = "Milan",
-                   Age = "23"
-               },
-               autoSave: true
-           );
-        }
+        await _employeeRepository.InsertAsync(
+            new Employee
+            {
+                DepartmentId = testing.Id, // SET THE AUTHOR
+                Name = "Rushi",
+                Age = "24"
+                
+            },
+            autoSave: true
+        );
     }
 }

@@ -28,7 +28,7 @@
                                 {
                                     text: l('Delete'),
                                     visible:
-                                        abp.auth.isGranted('EMS.Department.Delete'),
+                                        abp.auth.isGranted('EMS.Departmetns.Delete'),
                                     confirmMessage: function (data) {
                                         return l(
                                             'DepartmentDeletionConfirmationMessage',
@@ -55,9 +55,9 @@
                 },
                 {
                     title: l('ShortBio'),
-                    data: "shortbio",
-                 
-                }
+                    data: "shortBio"
+                },
+
             ]
         })
     );

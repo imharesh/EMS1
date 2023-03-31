@@ -10,12 +10,12 @@ using Volo.Abp.Domain.Repositories;
 namespace EMS.Departments
 {
     [Authorize(EMSPermissions.Departments.Default)]
-    public class AuthorAppService : EMSAppService, IDepartmentAppService
+    public class DepartmentAppService : EMSAppService, IDepartmentAppService
     {
         private readonly IDepartmentRepository _departmentRepository;
         private readonly DepartmentManager _departmentManager;
 
-        public AuthorAppService(
+        public DepartmentAppService(
             IDepartmentRepository departmentRepository,
             DepartmentManager departmentManager)
         {
